@@ -14,7 +14,7 @@ echo [INFO] 检查/安装依赖...
 ".venv\Scripts\python.exe" -m pip install -r requirements.txt
 
 echo.
-echo [INFO] 启动后端: http://localhost:8000
+echo [INFO] 启动后端: http://localhost:9000
 echo.
 
 rem 说明：后端会在启动时自动读取项目根目录的 .env（无需 bat 解析，避免 BOM/编码问题）
@@ -24,6 +24,6 @@ if exist ".env" (
   echo [INFO] 未检测到 .env，将仅使用系统环境变量。
 )
 
-".venv\Scripts\python.exe" -m uvicorn backend.main:app --host 127.0.0.1 --port 8000
+".venv\Scripts\python.exe" -m uvicorn backend.main:app --host 127.0.0.1 --port 9000
 
 pause

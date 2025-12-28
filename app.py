@@ -121,7 +121,7 @@ with st.sidebar:
 
     backend_url = st.text_input(
         "后端地址（Backend URL）",
-        value=os.environ.get("FTIR_BACKEND_URL", "http://localhost:8000"),
+        value=os.environ.get("FTIR_BACKEND_URL", "http://localhost:9000"),
         help="前端与生成的脚本都会调用该后端；后端再去调用模型（API Key 在后端环境变量中）。",
     ).rstrip("/")
 

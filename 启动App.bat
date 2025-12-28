@@ -35,8 +35,8 @@ if errorlevel 1 (
 )
 
 echo [3/3] Starting Streamlit...
-echo 将在浏览器中打开: http://localhost:8501
-start "" http://localhost:8501
+echo 将在浏览器中打开: http://localhost:9501
+start "" http://localhost:9501
 
 rem Run Streamlit in this window (keeps server alive)
 ".venv\Scripts\python.exe" -m streamlit run app.py

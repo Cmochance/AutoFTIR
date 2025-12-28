@@ -33,7 +33,7 @@ def main() -> None:
         "image_base64": b64,
     }
 
-    url = "http://127.0.0.1:8001/api/analyze-image"
+    url = "http://127.0.0.1:9000/api/analyze-image"
     r = httpx.post(url, json=payload, timeout=120.0)
     print("status", r.status_code)
     print(r.text[:2000])

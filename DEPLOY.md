@@ -4,7 +4,7 @@
 
 - Docker 20.10+
 - Docker Compose 2.0+
-- 服务器开放端口: 80 (HTTP), 443 (HTTPS, 可选)
+- 服务器开放端口: 9080 (HTTP), 9443 (HTTPS, 可选)
 
 ## 快速部署
 
@@ -30,8 +30,8 @@ docker-compose up -d
 
 ### 4. 验证
 
-- 前端: `http://服务器IP`
-- 后端: `http://服务器IP/api/health`
+- 前端: `http://服务器IP:9080`
+- 后端: `http://服务器IP:9080/api/health`
 
 ## 常用命令
 
