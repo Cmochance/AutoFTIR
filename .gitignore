@@ -1,20 +1,8 @@
-# Python
-__pycache__/
-*.py[cod]
 
-# Virtual env
-.venv/
 
 # Local secrets / config
 .env
-*.env
 
-# Streamlit
-.streamlit/
-
-# OS
-.DS_Store
-Thumbs.db
 
 # 测试文件 (Test files)
 *测试*
