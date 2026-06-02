@@ -1,14 +1,15 @@
 # ============================================
-# AutoFTIR - Docker Compose 配置（HTTPS 版本）
-# 使用方法: docker compose -f docker-compose.https.yml up -d
+# Legacy Compose (保留历史链路，不作为默认入口)
+#
+# 本文件用于旧版 Streamlit + legacy API 的 HTTPS 代理实验。
+# 默认开发和部署请使用 docker-compose.yml（Backend + React）。
 # ============================================
 
 services:
   backend:
     build: .
-    container_name: autoftir-backend
-    command: python -m uvicorn backend.main:app --host 0.0.0.0 --port 9000
-    # 不暴露到宿主机，仅容器内部通信（通过 Nginx 代理访问）
+    container_name: autoftir-legacy-backend
+    command: python -m uvicorn api.main:app --host 0.0.0.0 --port 9000
     expose:
       - "9000"
     environment:
@@ -16,29 +17,31 @@ services:
       - AI_API_KEY=${AI_API_KEY}
       - AI_BASE_URL=${AI_BASE_URL}
       - AI_DEBUG=${AI_DEBUG:-0}
+      - HOST=0.0.0.0
+      - PORT=9000
     volumes:
-      - ./backend:/app/backend:ro
+      - ./api:/app/api:ro
+      - ./core:/app/core:ro
       - ./modules:/app/modules:ro
+      - ./.env:/app/.env:ro
     restart: unless-stopped
     healthcheck:
-      test: [ "CMD", "curl", "-f", "http://localhost:9000/api/health" ]
+      test: ["CMD", "curl", "-f", "http://localhost:9000/api/health"]
       interval: 30s
       timeout: 10s
       retries: 3
 
   frontend:
     build: .
-    container_name: autoftir-frontend
-    command: python -m streamlit run streamlit_app.py --server.address=0.0.0.0 --server.port=9501
-    # 不暴露到宿主机，仅容器内部通信（通过 Nginx 代理访问）
+    container_name: autoftir-legacy-frontend
+    command: python -m streamlit run frontend/streamlit_app.py --server.address=0.0.0.0 --server.port=9501
     expose:
       - "9501"
     environment:
       - FTIR_BACKEND_URL=http://backend:9000
     volumes:
-      - ./streamlit_app.py:/app/streamlit_app.py:ro
-      - ./ui:/app/ui:ro
-      - ./modules:/app/modules:ro
+      - ./frontend:/app/frontend:ro
+      - ./core:/app/core:ro
       - ./templates:/app/templates:ro
     depends_on:
       - backend
@@ -46,7 +49,7 @@ services:
 
   nginx:
     image: nginx:alpine
-    container_name: autoftir-nginx
+    container_name: autoftir-legacy-nginx
     ports:
       - "9080:9080"
       - "9443:9443"

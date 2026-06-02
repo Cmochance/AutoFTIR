@@ -28,6 +28,15 @@ export default function Sidebar({ isOpen, onToggle }: SidebarProps) {
           <div className="h-16 flex items-center px-6 border-b border-paper-aged">
             <h1 className="text-2xl font-title text-ink-black">墨研</h1>
             <span className="ml-2 text-sm text-ink-light">SciData</span>
+            <button
+              className="ml-auto p-1.5 rounded-sm hover:bg-paper-cream text-ink-medium transition-colors"
+              onClick={onToggle}
+              aria-label="折叠侧边栏"
+            >
+              <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
+              </svg>
+            </button>
           </div>
 
           {/* 导航 */}

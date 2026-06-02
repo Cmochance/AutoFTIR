@@ -1,36 +1,36 @@
 version: '3.8'
 
 services:
-  # 后端 API 服务
-  api:
-    build: .
-    container_name: autoftir-api
+  backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    container_name: autoftir-backend
     ports:
       - "9000:9000"
+    env_file:
+      - ./backend/.env
     environment:
-      - HOST=0.0.0.0
-      - PORT=9000
-      - DEBUG=false
-      - AI_PROVIDER=zhipuai_sdk
-      - ZHIPUAI_API_KEY=${ZHIPUAI_API_KEY}
-      - ZHIPUAI_BASE_URL=${ZHIPUAI_BASE_URL:-https://open.bigmodel.cn/api/paas/v4}
-      - VLM_PROVIDER=${VLM_PROVIDER:-openai}
-      - VLM_MODEL=${VLM_MODEL:-gpt-4o}
-      - OPENAI_API_KEY=${OPENAI_API_KEY}
-    command: python run_api.py
+      - APP_ENV=development
+      - DEBUG=true
+    volumes:
+      - ./:/app
     restart: unless-stopped
 
-  # Web 前端服务
   frontend:
-    build: .
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile.dev
     container_name: autoftir-frontend
     ports:
-      - "8501:8501"
+      - "3000:3000"
     environment:
-      - FTIR_BACKEND_URL=http://api:9000
-    command: streamlit run streamlit_app.py --server.address=0.0.0.0 --server.port=8501
+      - VITE_API_BASE_URL=http://localhost:9000
+    volumes:
+      - ./frontend:/app
+      - /app/node_modules
     depends_on:
-      - api
+      - backend
     restart: unless-stopped
 
 networks:
